@@ -46,6 +46,10 @@ export default function(pdfjsWrapper) {
 			rotate: {
 				type: Number,
 			},
+			renderForms: {
+				type: Boolean,
+                                default: false
+			},
 		},
 		watch: {
 			src: function() {
@@ -57,7 +61,7 @@ export default function(pdfjsWrapper) {
 				this.pdf.loadPage(this.page, this.rotate);
 			},
 			rotate: function() {
-				this.pdf.renderPage(this.rotate);
+				this.pdf.renderPage(this.rotate, this.renderForms);
 			},
 		},
 		methods: {
@@ -73,7 +77,7 @@ export default function(pdfjsWrapper) {
 				var resolutionScale = this.pdf.getResolutionScale();
 
 				if ( resolutionScale < 0.85 || resolutionScale > 1.15 )
-					this.pdf.renderPage(this.rotate);
+					this.pdf.renderPage(this.rotate, this.renderForms);
 
 				this.$refs.annotationLayer.style.transform = 'scale('+resolutionScale+')';
 			},

@@ -175,7 +175,7 @@ export default function(PDFJS) {
 			})
 		}
 
-		this.renderPage = function(rotate) {
+		this.renderPage = function(rotate, renderForms) {
 			if ( pdfRender !== null ) {
 
 				if ( canceling )
@@ -226,8 +226,8 @@ export default function(PDFJS) {
 					annotations: annotations,
 					page: pdfPage,
 					linkService: linkService,
-					renderInteractiveForms: false
-				});
+					renderInteractiveForms: renderForms
+				})
 			});
 
 			pdfRender
@@ -235,6 +235,7 @@ export default function(PDFJS) {
 				annotationLayerElt.style.visibility = '';
 				canceling = false;
 				pdfRender = null;
+				emitEvent('rendered');
 			})
 			.catch(function(err) {
 
