@@ -290,6 +290,10 @@ export default function(PDFJS) {
 			});
 		}
 
+                this.getDocument = function() {
+                    return pdfDoc;
+                }
+
 		this.loadDocument = function(src) {
 
 			pdfDoc = null;

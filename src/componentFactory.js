@@ -84,7 +84,11 @@ export default function(pdfjsWrapper) {
 			print: function(dpi, pageList) {
 
 				this.pdf.printPage(dpi, pageList);
-			}
+			},
+
+                        getDocument: function() {
+                            return this.pdf.getDocument();
+                        }
 		},
 
 		// doc: mounted hook is not called during server-side rendering.
