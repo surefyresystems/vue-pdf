@@ -10,11 +10,7 @@
 
 		if ( typeof window !== 'undefined' && 'Worker' in window && navigator.appVersion.indexOf('MSIE 10') === -1 ) {
                         var PdfjsWorker;
-                        if(gSurefyreStaticUrl){
-			    PdfjsWorker = require('worker-loader?inline=true&publicPath=https://example.com!pdfjs-dist/build/pdf.worker.js');
-                        } else {
-			    PdfjsWorker = require('worker-loader!pdfjs-dist/build/pdf.worker.js');
-                        }
+			PdfjsWorker = require('worker-loader!pdfjs-dist/build/pdf.worker.js');
 			PDFJS.GlobalWorkerOptions.workerPort = new PdfjsWorker();
 		}
 

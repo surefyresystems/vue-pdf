@@ -191,7 +191,9 @@ export default function(PDFJS) {
 			if ( rotate === undefined )
 				rotate = pdfPage.rotate;
 
-			var scale = canvasElt.offsetWidth / pdfPage.getViewport(1).width * (window.devicePixelRatio || 1);
+			//var scale = canvasElt.offsetWidth / pdfPage.getViewport(1).width * (window.devicePixelRatio || 1);
+			var scale = 1.5;
+                        console.log(renderForms);
 			var viewport = pdfPage.getViewport(scale, rotate);
 
 			emitEvent('page-size', viewport.width, viewport.height);
@@ -243,7 +245,7 @@ export default function(PDFJS) {
 				if ( err instanceof PDFJS.RenderingCancelledException ) {
 
 					canceling = false;
-					this.renderPage(rotate);
+					this.renderPage(rotate, renderForms);
 					return;
 				}
 				emitEvent('error', err);
@@ -268,7 +270,7 @@ export default function(PDFJS) {
 		}
 
 
-		this.loadPage = function(pageNumber, rotate) {
+		this.loadPage = function(pageNumber, rotate, renderForms) {
 
 			pdfPage = null;
 
@@ -279,7 +281,7 @@ export default function(PDFJS) {
 			.then(function(page) {
 
 				pdfPage = page;
-				this.renderPage(rotate);
+				this.renderPage(rotate, renderForms);
 				emitEvent('page-loaded', page.pageNumber);
 			}.bind(this))
 			.catch(function(err) {

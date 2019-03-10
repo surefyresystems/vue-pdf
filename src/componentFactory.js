@@ -58,7 +58,7 @@ export default function(pdfjsWrapper) {
 			},
 			page: function() {
 
-				this.pdf.loadPage(this.page, this.rotate);
+				this.pdf.loadPage(this.page, this.rotate, this.renderForms);
 			},
 			rotate: function() {
 				this.pdf.renderPage(this.rotate, this.renderForms);
@@ -76,8 +76,8 @@ export default function(pdfjsWrapper) {
 				// update the page when the resolution is too poor
 				var resolutionScale = this.pdf.getResolutionScale();
 
-				if ( resolutionScale < 0.85 || resolutionScale > 1.15 )
-					this.pdf.renderPage(this.rotate, this.renderForms);
+				//if ( resolutionScale < 0.85 || resolutionScale > 1.15 )
+				//	this.pdf.renderPage(this.rotate, this.renderForms);
 
 				this.$refs.annotationLayer.style.transform = 'scale('+resolutionScale+')';
 			},
@@ -98,7 +98,7 @@ export default function(pdfjsWrapper) {
 
 			this.$on('loaded', function() {
 
-				this.pdf.loadPage(this.page, this.rotate);
+				this.pdf.loadPage(this.page, this.rotate, this.renderForms);
 			});
 
 			this.$on('page-size', function(width, height) {
