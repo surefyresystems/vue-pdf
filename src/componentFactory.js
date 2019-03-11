@@ -50,6 +50,10 @@ export default function(pdfjsWrapper) {
 				type: Boolean,
                                 default: false
 			},
+			scale: {
+				type: Number,
+                                default: 1
+			},
 		},
 		watch: {
 			src: function() {
@@ -58,15 +62,15 @@ export default function(pdfjsWrapper) {
 			},
 			page: function() {
 
-				this.pdf.loadPage(this.page, this.rotate, this.renderForms);
+				this.pdf.loadPage(this.page, this.rotate, this.renderForms, this.scale);
 			},
 			rotate: function() {
-				this.pdf.renderPage(this.rotate, this.renderForms);
+				this.pdf.renderPage(this.rotate, this.renderForms, this.scale);
 			},
 		},
 		methods: {
 			resize: function(size) {
-
+                                return;
 				// check if the element is attached to the dom tree || resizeSensor being destroyed
 				if ( this.$el.parentNode === null || (size.width === 0 && size.height === 0) )
 					return;
@@ -77,7 +81,7 @@ export default function(pdfjsWrapper) {
 				var resolutionScale = this.pdf.getResolutionScale();
 
 				//if ( resolutionScale < 0.85 || resolutionScale > 1.15 )
-				//	this.pdf.renderPage(this.rotate, this.renderForms);
+				//	this.pdf.renderPage(this.rotate, this.renderForms, this.scale);
 
 				this.$refs.annotationLayer.style.transform = 'scale('+resolutionScale+')';
 			},
@@ -98,12 +102,12 @@ export default function(pdfjsWrapper) {
 
 			this.$on('loaded', function() {
 
-				this.pdf.loadPage(this.page, this.rotate, this.renderForms);
+				this.pdf.loadPage(this.page, this.rotate, this.renderForms, this.scale);
 			});
 
 			this.$on('page-size', function(width, height) {
-
-				this.$refs.canvas.style.height = this.$refs.canvas.offsetWidth * (height / width) + 'px';
+				this.$refs.canvas.style.height = height + 'px';
+				this.$refs.canvas.style.width = width + 'px';
 			});
 
 			this.pdf.loadDocument(this.src);

@@ -175,7 +175,7 @@ export default function(PDFJS) {
 			})
 		}
 
-		this.renderPage = function(rotate, renderForms) {
+		this.renderPage = function(rotate, renderForms, scale) {
 			if ( pdfRender !== null ) {
 
 				if ( canceling )
@@ -190,14 +190,13 @@ export default function(PDFJS) {
 
 			if ( rotate === undefined )
 				rotate = pdfPage.rotate;
+                        if(!scale){
+			  scale = canvasElt.offsetWidth / pdfPage.getViewport(1).width * (window.devicePixelRatio || 1);
+                        } 
 
-			//var scale = canvasElt.offsetWidth / pdfPage.getViewport(1).width * (window.devicePixelRatio || 1);
-			var scale = 1.5;
-                        console.log(renderForms);
 			var viewport = pdfPage.getViewport(scale, rotate);
 
 			emitEvent('page-size', viewport.width, viewport.height);
-
 			canvasElt.width = viewport.width;
 			canvasElt.height = viewport.height;
 
@@ -245,7 +244,7 @@ export default function(PDFJS) {
 				if ( err instanceof PDFJS.RenderingCancelledException ) {
 
 					canceling = false;
-					this.renderPage(rotate, renderForms);
+					this.renderPage(rotate, renderForms, scale);
 					return;
 				}
 				emitEvent('error', err);
@@ -270,7 +269,7 @@ export default function(PDFJS) {
 		}
 
 
-		this.loadPage = function(pageNumber, rotate, renderForms) {
+		this.loadPage = function(pageNumber, rotate, renderForms, scale) {
 
 			pdfPage = null;
 
@@ -281,7 +280,7 @@ export default function(PDFJS) {
 			.then(function(page) {
 
 				pdfPage = page;
-				this.renderPage(rotate, renderForms);
+				this.renderPage(rotate, renderForms, scale);
 				emitEvent('page-loaded', page.pageNumber);
 			}.bind(this))
 			.catch(function(err) {
