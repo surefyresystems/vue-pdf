@@ -2,16 +2,14 @@
 <script>
 
 	import componentFactory from './componentFactory.js'
+	import PDFJS from 'pdfjs-dist/build/pdf.js';
 
 	if ( process.env.VUE_ENV !== 'server' ) {
 
 		var pdfjsWrapper = require('./pdfjsWrapper.js').default;
-		var PDFJS = require('pdfjs-dist/build/pdf.js');
 
 		if ( typeof window !== 'undefined' && 'Worker' in window && navigator.appVersion.indexOf('MSIE 10') === -1 ) {
-                        var PdfjsWorker;
-			PdfjsWorker = require('worker-loader?inline=true!pdfjs-dist/build/pdf.worker.js');
-			PDFJS.GlobalWorkerOptions.workerPort = new PdfjsWorker();
+			PDFJS.GlobalWorkerOptions.workerSrc = gSurefyreStaticUrl + "pdfjs/pdf.worker.min.js";
 		}
 
 		var component = componentFactory(pdfjsWrapper(PDFJS));
