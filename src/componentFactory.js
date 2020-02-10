@@ -67,6 +67,9 @@ export default function(pdfjsWrapper) {
 			rotate: function() {
 				this.pdf.renderPage(this.rotate, this.renderForms, this.scale);
 			},
+			scale: function() {
+				this.pdf.renderPage(this.rotate, this.renderForms, this.scale);
+			},
 		},
 		methods: {
 			resize: function(size) {
