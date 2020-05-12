@@ -249,6 +249,7 @@ export default function(PDFJS) {
 					annotationLayerElt.style.visibility = '';
 					canceling = false;
 					pdfRender = null;
+					emitEvent('rendered');
 				})
 				.catch(function(err) {
 
